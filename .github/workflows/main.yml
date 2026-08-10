@@ -1,0 +1,42 @@
+### pixelagent-headeditor.mbrext
+### secrets.GH_PAT
+
+name: Build Mobirise Extension
+
+on:
+  push:
+    paths:
+      - 'src/**'
+
+permissions:
+  contents: write  # Required for repo content modification (like releases)
+
+jobs:
+  build:
+    name: Create Downloadable Mobirise Extension
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Create Mobirise Extension File
+        run: |
+          cd src/
+          zip -r ../pixelagent-threejseditor.mbrext .
+          cd ../
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+
+      - name: Create GitHub Release and Upload Asset
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh release create file-change-${{ github.sha }} \
+            ./pixelagent-threejseditor.mbrext \
+            --title "File Change Build ${{ github.sha }}" \
+            --notes "Automated release triggered by changes to src/" \
+            --prerelease
