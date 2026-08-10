@@ -1,0 +1,69 @@
+<mbr-parameters>
+    <header>Scene Code</header>
+    <textarea title="Scene Code (JavaScript)" name="sceneCode" placeholder="const scene = new THREE.Scene(); ...">const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+camera.position.z = 2.5;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
+const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x00ffff, roughness: 0.25, metalness: 0.5 }));
+scene.add(cube);
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const light = new THREE.DirectionalLight(0xffffff, 0.8);
+light.position.set(3, 5, 4);
+scene.add(light);
+renderer.setAnimationLoop(function () {
+    cube.rotation.x += 0.008;
+    cube.rotation.y += 0.012;
+    renderer.render(scene, camera);
+});
+window.addEventListener('resize', function () {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+});</textarea>
+
+    <header>External Scripts</header>
+    <textarea title="External Scripts (one URL per line)" name="externalScripts" placeholder="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js">https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js</textarea>
+
+    <header>Layout</header>
+    <input type="range" inline title="Height (px)" name="height" min="200" max="1000" step="50" value="500">
+</mbr-parameters>
+
+<section mbr-id="_anchor" class="mbr-section mbr-section--no-padding mbr-threejs-section" data-threejs-external-scripts="{{externalScripts}}" style="height: {{height}}px;">
+    <div class="threejs-wrapper">
+        <div class="threejs-canvas"></div>
+        <script>
+            (function () {
+                var container = null;
+                try {
+                    var scriptEl = document.currentScript;
+                    container = scriptEl && scriptEl.parentNode ? scriptEl.parentNode.querySelector('.threejs-canvas') : null;
+                } catch (e) {
+                    container = document.querySelector('.mbr-threejs-section .threejs-canvas');
+                }
+
+                function runScene() {
+                    if (!container) {
+                        container = document.querySelector('.mbr-threejs-section .threejs-canvas');
+                    }
+                    if (!container) {
+                        return;
+                    }
+                    try {
+                        {{sceneCode}}
+                    } catch (e) {
+                        console.error('[Three.js section]', e);
+                    }
+                }
+
+                if (window.THREE) {
+                    runScene();
+                } else {
+                    window.addEventListener('load', runScene);
+                }
+            })();
+        </script>
+    </div>
+</section>

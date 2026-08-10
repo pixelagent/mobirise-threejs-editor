@@ -1,0 +1,17 @@
+{
+    "name": "Three.js Insert",
+    "alias": "threejs-editor",
+    "version": 2,
+    "minAppVersion": "5.4.1",
+    "appScript": true,
+    "appHtml": true,
+    "components": [
+        {
+            "path": "threejs-block",
+            "_group": "threejs-editor",
+            "_isSecondary": true
+        }
+    ],
+    "description": "Add an interactive Three.js <section> to any Mobirise page. External libraries are loaded once in the page footer while your scene JavaScript runs inside the <section>. <a href='https://threejs.org'>threejs.org</a>",
+    "logo": "thumbnail.png"
+}
