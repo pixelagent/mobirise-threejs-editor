@@ -33,7 +33,8 @@ jobs:
 
       - name: Create GitHub Release and Upload Asset
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create file-change-${{ github.sha }} \
             ./pixelagent-threejseditor.mbrext \
