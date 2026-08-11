@@ -13,5 +13,6 @@
         }
     ],
     "description": "Add an interactive Three.js <section> to any Mobirise page. External libraries are loaded once in the page footer while your scene JavaScript runs inside the <section>. <a href='https://threejs.org'>threejs.org</a>",
+    "largeCover": "cover.png",
     "logo": "thumbnail.png"
 }
